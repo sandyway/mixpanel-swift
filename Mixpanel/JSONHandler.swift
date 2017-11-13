@@ -21,13 +21,11 @@ class JSONHandler {
         }
 
         let base64Encoded = d.base64EncodedString(options: .lineLength64Characters)
-
         guard let b64 = base64Encoded
-            .addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
+            .addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: ":/?@!$&'()*+,;=`#%^{}\"[]|\\<> ").inverted) else {
             Logger.warn(message: "couldn't replace characters to allowed URL character set")
             return nil
         }
-
         return b64
     }
 

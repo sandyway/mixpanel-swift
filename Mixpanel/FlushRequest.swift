@@ -9,8 +9,8 @@
 import Foundation
 
 enum FlushType: String {
-    case events = "/track/"
-    case people = "/engage/"
+    case events = "/trace/track"
+    case people = "/trace/engage"
 }
 
 class FlushRequest: Network {

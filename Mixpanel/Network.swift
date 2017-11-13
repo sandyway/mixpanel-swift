@@ -10,7 +10,7 @@ import Foundation
 
 
 struct BasePath {
-    static let DefaultMixpanelAPI = "https://api.mixpanel.com"
+    static let DefaultMixpanelAPI = "http://192.168.1.102:8080"
     static var namedBasePaths = [String:String]()
 
     static func buildURL(base: String, path: String, queryItems: [URLQueryItem]?) -> URL? {
