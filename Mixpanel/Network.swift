@@ -98,6 +98,7 @@ class Network {
         var request = URLRequest(url: url)
         request.httpMethod = resource.method.rawValue
         request.httpBody = resource.requestBody
+        request.setValue("5pa55qGI5YaF5omA5pyJ5oub5ZWG5pa55qGI6ZKI5a+56ICD5ouJ5LyY5pWZ5YWN6LS5", forHTTPHeaderField: "token")
 
         for (k, v) in resource.headers {
             request.setValue(v, forHTTPHeaderField: k)
