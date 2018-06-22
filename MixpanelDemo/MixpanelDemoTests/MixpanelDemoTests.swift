@@ -15,16 +15,14 @@ import Nocilla
 class MixpanelDemoTests: MixpanelBaseTests {
 
     func test5XXResponse() {
+        LSNocilla.sharedInstance().clearStubs()
         _ = stubTrack().andReturn(503)
 
         mixpanel.track(event: "Fake Event")
 
         waitForTrackingQueue()
-        
         flushAndWaitForNetworkQueue()
-
         flushAndWaitForNetworkQueue()
-
         // Failure count should be 3
         let waitTime =
             mixpanel.flushInstance.flushRequest.networkRequestsAllowedAfterTime - Date().timeIntervalSince1970
@@ -37,14 +35,12 @@ class MixpanelDemoTests: MixpanelBaseTests {
     }
 
     func testRetryAfterHTTPHeader() {
+        LSNocilla.sharedInstance().clearStubs()
         _ = stubTrack().andReturn(200)?.withHeader("Retry-After", "60")
 
         mixpanel.track(event: "Fake Event")
-        
+
         waitForTrackingQueue()
-
-        flushAndWaitForNetworkQueue()
-
         flushAndWaitForNetworkQueue()
 
         // Failure count should be 3
@@ -71,7 +67,6 @@ class MixpanelDemoTests: MixpanelBaseTests {
         for i in 0..<60 {
             mixpanel.track(event: "event \(i)")
         }
-        
         waitForTrackingQueue()
         flushAndWaitForNetworkQueue()
         XCTAssertTrue(mixpanel.eventsQueue.isEmpty,
@@ -97,6 +92,7 @@ class MixpanelDemoTests: MixpanelBaseTests {
     }
 
     func testFlushNetworkFailure() {
+        LSNocilla.sharedInstance().clearStubs()
         stubTrack().andFailWithError(
             NSError(domain: "com.mixpanel.sdk.testing", code: 1, userInfo: nil))
         mixpanel.identify(distinctId: "d1")
@@ -108,7 +104,7 @@ class MixpanelDemoTests: MixpanelBaseTests {
         flushAndWaitForNetworkQueue()
         XCTAssertTrue(mixpanel.eventsQueue.count == 50,
                       "events should still be in the queue if flush fails")
-        
+
 
     }
 
@@ -167,6 +163,9 @@ class MixpanelDemoTests: MixpanelBaseTests {
             XCTAssertEqual((mixpanel.eventsQueue.last?["properties"] as? InternalProperties)?["distinct_id"] as? String,
                            mixpanel.defaultDistinctId(),
                            "events should use default distinct id if none set")
+            XCTAssertEqual((mixpanel.eventsQueue.last?["properties"] as? InternalProperties)?["$lib_version"] as? String,
+                           AutomaticProperties.libVersion(),
+                           "events should has lib version in internal properties")
             mixpanel.people.set(property: "p1", to: "a")
             waitForTrackingQueue()
             XCTAssertTrue(mixpanel.people.peopleQueue.isEmpty,
@@ -573,9 +572,9 @@ class MixpanelDemoTests: MixpanelBaseTests {
     }
 
     func testTelephonyInfoInitialized() {
-        XCTAssertNotNil(AutomaticProperties.telephonyInfo, "telephonyInfo wasn't initialized")
+        XCTAssertNotNil(mixpanel.telephonyInfo, "telephonyInfo wasn't initialized")
     }
-    
+
     func testReadWriteLock() {
         var array = [Int]()
         let lock = ReadWriteLock(label: "test")

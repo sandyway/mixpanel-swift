@@ -1,8 +1,7 @@
-
 Pod::Spec.new do |s|
   s.name = 'Mixpanel-swift'
-  s.version = '2.2.2'
-  s.module_name = 'Mixpanel' 
+  s.version = '2.4.3'
+  s.module_name = 'Mixpanel'
   s.license = 'Apache License, Version 2.0'
   s.summary = 'Mixpanel tracking library for iOS (Swift)'
   s.homepage = 'https://mixpanel.com'
@@ -17,7 +16,7 @@ Pod::Spec.new do |s|
     'Mixpanel/Logger.swift', 'Mixpanel/JSONHandler.swift', 'Mixpanel/Error.swift', 'Mixpanel/AutomaticProperties.swift',
     'Mixpanel/Constants.swift', 'Mixpanel/MixpanelType.swift', 'Mixpanel/Mixpanel.swift', 'Mixpanel/MixpanelInstance.swift',
     'Mixpanel/Persistence.swift', 'Mixpanel/Flush.swift','Mixpanel/Track.swift', 'Mixpanel/People.swift', 'Mixpanel/AutomaticEvents.swift',
-    'Mixpanel/ReadWriteLock.swift']
+    'Mixpanel/ReadWriteLock.swift', 'Mixpanel/SessionMetadata.swift']
   s.tvos.deployment_target = '9.0'
   s.tvos.frameworks = 'UIKit', 'Foundation'
   s.tvos.pod_target_xcconfig = {
